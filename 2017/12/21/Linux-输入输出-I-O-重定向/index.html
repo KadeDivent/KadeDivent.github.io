@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Kade 的小站</title>
+  <title>Linux 输入输出(I/O)重定向 | Kade 的小站</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Kade 的小站">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="1、概念在解释什么是重定向之前，先来说说什么是文件描述符 Linux 文件描述符文件描述符可以理解为 Linux 系统为文件分配的一个数字，范围是 0-3 ，用户也可以自定义文件描述符，但是自定文件描述符不在这里的讨论范围﻿文件描述符（file descriptor）    名称 类型 文件描述符 操作     标准输入 standard input 0 &amp;lt;,&amp;lt;&amp;lt;   标准输出">
+<meta name="keywords" content="Linux,shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 输入输出(I&#x2F;O)重定向">
+<meta property="og:url" content="http://yoursite.com/2017/12/21/Linux-输入输出-I-O-重定向/index.html">
 <meta property="og:site_name" content="Kade 的小站">
+<meta property="og:description" content="1、概念在解释什么是重定向之前，先来说说什么是文件描述符 Linux 文件描述符文件描述符可以理解为 Linux 系统为文件分配的一个数字，范围是 0-3 ，用户也可以自定义文件描述符，但是自定文件描述符不在这里的讨论范围﻿文件描述符（file descriptor）    名称 类型 文件描述符 操作     标准输入 standard input 0 &amp;lt;,&amp;lt;&amp;lt;   标准输出">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-12-21T13:25:14.815Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kade 的小站">
+<meta name="twitter:title" content="Linux 输入输出(I&#x2F;O)重定向">
+<meta name="twitter:description" content="1、概念在解释什么是重定向之前，先来说说什么是文件描述符 Linux 文件描述符文件描述符可以理解为 Linux 系统为文件分配的一个数字，范围是 0-3 ，用户也可以自定义文件描述符，但是自定文件描述符不在这里的讨论范围﻿文件描述符（file descriptor）    名称 类型 文件描述符 操作     标准输入 standard input 0 &amp;lt;,&amp;lt;&amp;lt;   标准输出">
   
     <link rel="alternative" href="/atom.xml" title="Kade 的小站" type="application/atom+xml">
   
@@ -136,36 +141,134 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Linux-输入输出-I-O-重定向" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/21/Linux-输入输出-I-O-重定向/" class="archive-article-date">
-  	<time datetime="2017-12-21T12:48:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-21</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/21/Linux-输入输出-I-O-重定向/">Linux 输入输出(I/O)重定向</a>
+    <h1 class="article-title" itemprop="name">
+      Linux 输入输出(I/O)重定向
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/12/21/Linux-输入输出-I-O-重定向/" class="archive-article-date">
+  	<time datetime="2017-12-21T12:48:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1、概念"><a href="#1、概念" class="headerlink" title="1、概念"></a>1、概念</h1><p>在解释什么是重定向之前，先来说说什么是文件描述符</p>
+<h2 id="Linux-文件描述符"><a href="#Linux-文件描述符" class="headerlink" title="Linux 文件描述符"></a>Linux 文件描述符</h2><p>文件描述符可以理解为 Linux 系统为文件分配的一个数字，范围是 0-3 ，用户也可以自定义文件描述符，但是自定文件描述符不在这里的讨论范围<br>﻿<br>文件描述符（file descriptor）</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">文件描述符</th>
+<th style="text-align:center">操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">标准输入</td>
+<td style="text-align:center">standard input</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">&lt;,&lt;&lt;</td>
+</tr>
+<tr>
+<td style="text-align:center">标准输出</td>
+<td style="text-align:center">standard output</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">>,&gt;&gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">标准错误输出</td>
+<td style="text-align:center">standard error output</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2&gt;,2&gt;&gt;</td>
+</tr>
+</tbody>
+</table>
+<p>文件描述符的存储位置位于 <code>/proc/self/fd</code> ，文件描述符是通过一系列软链接指向的默认输出设备，这里我们的默认设备就是模拟终端</p>
+<blockquote>
+<p>模拟终端的文件可以使用命令 tty 来查看</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[divent@bash]$ ls -al /proc/self/fd</span><br><span class="line">total 0</span><br><span class="line">lrwx------. 1 divent divent 64 Aug 15 14:09 0 -&gt; /dev/pts/0</span><br><span class="line">lrwx------. 1 divent divent 64 Aug 15 14:09 1 -&gt; /dev/pts/0</span><br><span class="line">lrwx------. 1 divent divent 64 Aug 15 14:09 2 -&gt; /dev/pts/1</span><br></pre></td></tr></table></figure>
+<p>对于一条 Linux 的命令执行的过程如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">start=&gt;start: File</span><br><span class="line">stain=&gt;subroutine: Standard Input</span><br><span class="line">command=&gt;condition: Command</span><br><span class="line">op1=&gt;operation: Standard Output</span><br><span class="line">op2=&gt;operation: Standard Error</span><br><span class="line">end1=&gt;end: File</span><br><span class="line">end2=&gt;end: File</span><br><span class="line"></span><br><span class="line">start-&gt;stain(right)-&gt;command</span><br><span class="line">command(yes)-&gt;op1-&gt;end1</span><br><span class="line">command(no)-&gt;op2-&gt;end2</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>用户开始从键盘（键盘在 Linux 上属于文件）输入数据，也就是系统从文件中读取数据的时候</li>
+<li>shell 将接受到的数据（标准输入）传递给相应的命令开始执行</li>
+<li>(yes)执行成功后，即可获得标准正确输出。(no)执行失败后，获得标准错误输出</li>
+<li>在默认情况下，标准正确输出的结果与标准错误输出的缺省输出都为当前用户执行的终端</li>
+</ol>
+<p>一个命令执行以前，会准备好所有的输入输出，默认分别绑定 <code>stdin</code>(0)，<code>stdout</code>(1)，<code>stderr</code>(2)。如果在准备命令的时候出现错误，那么这个命令将不会执行</p>
+<hr>
+<h1 id="2、输出重定向"><a href="#2、输出重定向" class="headerlink" title="2、输出重定向"></a>2、输出重定向</h1><h2 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> [OPTION]&#123;&gt;,&gt;&gt;&#125; [File]</span><br><span class="line">option:</span><br><span class="line">    1   standard output(default)</span><br><span class="line">    2   standard error output</span><br><span class="line">    &amp;   all output</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>&gt;</code> 为覆盖输出，<code>&gt;&gt;</code>为追加输出</p>
+</blockquote>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设当前文件夹有文件 test2 </span></span><br><span class="line">[divent@bash]$ ls <span class="built_in">test</span> test2</span><br><span class="line">ls: cannot access <span class="built_in">test</span>: No such file or directory</span><br><span class="line">test2</span><br></pre></td></tr></table></figure>
+<p>这里可以看到同时拥有的标准输出与标准错误输出都显示在了屏幕上<br>现在我们要将输出写入到文件中</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设已经有文件 test2 , test3</span></span><br><span class="line">[divent@bash]$ ls <span class="built_in">test</span> test2 &gt; test3</span><br><span class="line">ls: cannot access <span class="built_in">test</span>: No such file or directory</span><br><span class="line">[divent@bash]$ cat test3</span><br><span class="line">test2</span><br></pre></td></tr></table></figure>
+<p>因为这里的文件只默认接受了标准输出，所以标准错误输出就输出到了终端上<br>我们也可以将标准错误输出写入到文件<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设已经有文件 test2 , stderr</span></span><br><span class="line">[divent@bash]$ ls <span class="built_in">test</span> test2 2&gt; stderr</span><br><span class="line">test2</span><br><span class="line">[divent@bash]$ cat stderr</span><br><span class="line">ls: cannot access <span class="built_in">test</span>: No such file or directory</span><br></pre></td></tr></table></figure></p>
+<p>这里获得的结果就和刚刚的结果正好相反<br>我们也可以将标准输出与标准错误输出都重定向到不同的文件<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设已经有文件 test2 , stdout , stderr</span></span><br><span class="line">[divent@bash]$ ls <span class="built_in">test</span> test2 1&gt; stdout 2&gt;stderr</span><br><span class="line">[divent@bash]$ cat stdout</span><br><span class="line">test2</span><br><span class="line">[divent@bash]$ cat stderr</span><br><span class="line">ls: cannot access <span class="built_in">test</span>: No such file or directory</span><br></pre></td></tr></table></figure></p>
+<p>这里我们就将两个不同的输出输出到了指定的文件中<br>我们也可以将两个输出同时输出到同一个文件中<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设已经有文件 test2 , test3</span></span><br><span class="line">[divent@bash]$ ls <span class="built_in">test</span> test2 &amp;&gt; test3</span><br><span class="line">[divent@bash]$ cat test3</span><br><span class="line">ls: cannot access <span class="built_in">test</span>: No such file or directory</span><br><span class="line">test2</span><br></pre></td></tr></table></figure></p>
+<p>这里就使用 \&amp; 将两种输出同时输出到了同一个文件<br>我们也可以只接受某一种输出，而将其他的输出导向到其他地方<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假设已经有文件 test2 </span></span><br><span class="line">[divent@bash]$ ls <span class="built_in">test</span> test2 2&gt;&amp;-</span><br><span class="line">test2</span><br><span class="line">[divent@bash]$ ls <span class="built_in">test</span> test2 2&gt;/dev/null</span><br><span class="line">test2</span><br><span class="line"><span class="comment"># &amp;- 意义为关闭这个输出，/dev/null 是 linux 的黑洞设备</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ul>
+<li>shell遇到 <code>&gt;</code> 操作符，会判断右边文件是否存在，如果存在就先删除，并且创建新文件。不存在直接创建。 无论左边命令执行是否成功。右边文件都会变为空。</li>
+<li><code>&gt;&gt;</code> 操作符，判断右边文件是否存在，如果不存在，先创建。以添加方式打开文件，会分配一个文件描述符[不特别指定，默认为1]然后，与左边对应的输出绑定。</li>
+<li>一条命令在执行前，先会检查输出是否正确，如果输出设备错误，将不会进行命令执行</li>
+</ul>
+<hr>
+<h1 id="3、输入重定向"><a href="#3、输入重定向" class="headerlink" title="3、输入重定向"></a>3、输入重定向</h1><h2 id="格式-1"><a href="#格式-1" class="headerlink" title="格式"></a>格式</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> &#123;&lt;&#125; [File] &#123;&lt;&lt;&#125; [Word]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里的 <code>&lt;</code> 与 <code>&lt;&lt;</code> 意义不是类似于输出重定向的操作符，<code>&lt;</code> 是从文件中取出数据到指定的文件中</p>
+</blockquote>
+<h2 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[divent@bash]$ cat &gt; newfile</span><br><span class="line">123</span><br><span class="line">abc</span><br><span class="line">456</span><br><span class="line">[divent@bash]<span class="variable">$cat</span> newfile</span><br><span class="line">123</span><br><span class="line">abc</span><br><span class="line">456</span><br><span class="line"><span class="comment"># 这里使用 Ctrl + D 可以结束输入，从键盘输入的数据会保存存到 newfile 文件中</span></span><br></pre></td></tr></table></figure>
+<p>cat 命令直接使用的话可以直接接收键盘的输入</p>
+<p>现在来尝试从文件中输入<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这里的示例我们使用刚才创建的 test3 文件</span></span><br><span class="line">[divent@bash]$ cat test3</span><br><span class="line">ls: cannot access <span class="built_in">test</span>: No such file or directory</span><br><span class="line">test2</span><br><span class="line">[divent@bash]$ cat &gt; newfile &lt; test3</span><br><span class="line">[divent@bash]$ cat newfile </span><br><span class="line">ls: cannot access <span class="built_in">test</span>: No such file or directory</span><br><span class="line">test2</span><br></pre></td></tr></table></figure></p>
+<p>这里的先将文件中的数据提取到了命令 <code>cat</code> 中 ，然后由 <code>cat</code> 写入到 <code>newfile</code> 中</p>
+<hr>
+<h1 id="4、自定义输入输出设备"><a href="#4、自定义输入输出设备" class="headerlink" title="4、自定义输入输出设备"></a>4、自定义输入输出设备</h1><h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>除了使用系统给你定义的文件描述符以外，用户还可以自己自定义文件描述符，首先使用 <code>ulimit -n</code> 来查看文件描述符的上限，然后使用命令 <code>exec</code> 来为一个文件添加文件描述符</p>
+<h2 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先查看一下现在已经被占用的文件描述符</span></span><br><span class="line">[divent@bash]$ ls /proc/self/fd</span><br><span class="line">0   1   2   3</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这个时候我们可以使用 exec 命令来为一个文件赋予一个文件描述符</span></span><br><span class="line">[divent@bash]$ touch /tmp/<span class="built_in">test</span> &amp;&amp; <span class="built_in">exec</span> 5&gt;/tmp/<span class="built_in">test</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后我们再查看文件描述符 5</span></span><br><span class="line">[divent@bash]$ ls -al /proc/self/fd/5</span><br><span class="line">l-wx------. 1 divent divent 64 Aug 15 14:54 /proc/self/fd/5 -&gt; /tmp/<span class="built_in">test</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 现在我们使用自己自定义的文件描述符来重定向输出</span></span><br><span class="line">[divent@bash]$ ls -l /etc &gt;&amp;5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后我们再来查看文件中的数据， 因为文件中有数据，这里就只取出前 5 行作为示例</span></span><br><span class="line">[divent@bash]$ head -n 5 /tmp/<span class="built_in">test</span></span><br><span class="line">total 1936</span><br><span class="line">drwxr-xr-x.  3 root root     4096 Jun 10 22:12 abrt</span><br><span class="line">-rw-r--r--.  1 root root       16 Jun  9 16:56 adjtime</span><br><span class="line">-rw-r--r--.  1 root root     1518 Feb 22 22:11 aliases</span><br><span class="line">drwxr-xr-x.  2 root root     4096 Jun 10 22:11 alsa</span><br><span class="line"></span><br><span class="line"><span class="comment"># 我们也可以使用 exec 来将文件的默认输出指向文件</span></span><br><span class="line">[divent@bash]$ <span class="built_in">exec</span> 1&gt;&amp;5</span><br><span class="line">[divent@bash]$ ls -l /etc</span><br><span class="line"><span class="comment"># 这个时候就会发现没有输出了，已经输出内容已经到了 /tmp/test 中了</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果想要恢复输出，将默认输出重新指向当前 /dev/pts/0 即可</span></span><br><span class="line">[divent@bash]$ <span class="built_in">exec</span> 1&gt;/dev/pts/0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭文件描述符</span></span><br><span class="line">[divent@bash]$ <span class="built_in">exec</span> 5&gt;&amp;-</span><br><span class="line"></span><br><span class="line"><span class="comment"># 最后我们查看一下</span></span><br><span class="line">[divent@bash]$ ls /proc/self/fd</span><br><span class="line">0  1  2  3</span><br></pre></td></tr></table></figure>
+<h1 id="最后说两句"><a href="#最后说两句" class="headerlink" title="最后说两句"></a>最后说两句</h1><ul>
+<li>如果不是很好理解的话，一定要贯彻 Linux 一切皆文件的理念，文件描述符最终也是指向的是文件</li>
+<li>使用自己自定义的描述符可以简化一些备份之类的任务</li>
+<li>在 shell 脚本中，输入输出重定向是经常使用的</li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -181,19 +284,109 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/12/21/Linux-输入输出-I-O-重定向/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
+
   
 
-    
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1、概念"><span class="toc-number">1.</span> <span class="toc-text">1、概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-文件描述符"><span class="toc-number">1.1.</span> <span class="toc-text">Linux 文件描述符</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、输出重定向"><span class="toc-number">2.</span> <span class="toc-text">2、输出重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#格式"><span class="toc-number">2.1.</span> <span class="toc-text">格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例"><span class="toc-number">2.2.</span> <span class="toc-text">示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">2.3.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3、输入重定向"><span class="toc-number">3.</span> <span class="toc-text">3、输入重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#格式-1"><span class="toc-number">3.1.</span> <span class="toc-text">格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例-1"><span class="toc-number">3.2.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4、自定义输入输出设备"><span class="toc-number">4.</span> <span class="toc-text">4、自定义输入输出设备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#解释"><span class="toc-number">4.1.</span> <span class="toc-text">解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例-2"><span class="toc-number">4.2.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#最后说两句"><span class="toc-number">5.</span> <span class="toc-text">最后说两句</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
 
 
           </div>
@@ -216,8 +409,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
