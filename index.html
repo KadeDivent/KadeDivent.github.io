@@ -142,6 +142,105 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-使用正则提取网页中的下载链接" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/22/使用正则提取网页中的下载链接/">使用正则提取网页中的下载链接</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/22/使用正则提取网页中的下载链接/" class="archive-article-date">
+  	<time datetime="2017-12-22T09:13:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天心仪的女生拜托我帮忙找一下 “欢乐合唱团” 的全系列的链接，因为是下载到手机中看，就需要有中字。<br>先 google 看看，发现网络上并没有现成的整合好全季的资源，后来又找到了一些分季的资源，可质量以及分辨率的不容乐观。<br>后来偶然在某站找到了全季的资源，但又产生了其他问题，资源都是以链接的方式显示，并且只能一个一个复制，这样就很难受了，于是决定自己动手把链接提取出来</p>
+<hr>
+<h2 id="1、下载网页源代码"><a href="#1、下载网页源代码" class="headerlink" title="1、下载网页源代码"></a>1、下载网页源代码</h2><p><code>wget</code> 或者浏览器直接 <code>Ctrl + s</code> 都可以 </p>
+<h2 id="2、-分析下载链接结构"><a href="#2、-分析下载链接结构" class="headerlink" title="2、 分析下载链接结构"></a>2、 分析下载链接结构</h2><p>通常来说，一个包含下载链接的 HTML 标签应该是这个样子</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"link"</span> <span class="attr">href</span>=<span class="string">"ed2k://|file|%E6%AC%A2%E4%B9%90%E5%90%88%E5%94%B1%E5%9B%A2.Glee.S06E13.End.%E4%B8%AD%E8%8B%B1%E5%AD%97%E5%B9%95.WEB-HR.AAC.1024X576.x264.mp4|111111111|a1b1b2b435hjkkj34gk|xxxxxxxxxxxxxxxxxxxxx|/"</span> <span class="attr">way</span>=<span class="string">"1"</span>&gt;</span>'</span><br></pre></td></tr></table></figure>
+<p>这里我们使用 Linux 的 <code>grep</code> 命令再配合正则表达式可以提取出</p>
+<blockquote>
+<p>文件源包含了多种链接，<strong>迅雷链接</strong>，<strong>百度盘链接</strong>等，以及不同分辨率的 ed2k 链接</p>
+</blockquote>
+<ol>
+<li>链接必须是 <code>ed2k</code> 开头</li>
+<li>链接以 <code>|/&quot;</code> 结尾</li>
+<li>链接中包含了分辨率，如 <code>1024</code> <code>720</code> 等</li>
+<li>链接中包含了格式，如 <code>mkv</code> <code>rmvb</code> 等</li>
+</ol>
+<p>由此可得正则表达式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ed2k.*HDTV.*720.*mkv.*\|\/</span><br></pre></td></tr></table></figure></p>
+<p>配合 <code>grep</code> 命令就是这样使用</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -Eo <span class="string">'ed2k.*HDTV.*720.*mkv.*\|\/"'</span> file</span><br></pre></td></tr></table></figure>
+<p>即可</p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>本来上面的操作是完全没有问题的，但是后来我在使用中发现了一个问题，<strong>我下载下来的 HTML 文件只有一排！！！</strong><br>为了压缩存储空间的原因，某些网站就会压缩 html 文件以节约空间以及传输流量，由于我们的正则表达式是<strong>贪婪匹配</strong>的缘故，所以将第一个 ed2k 链接到最后一个 ed2k 链接以及中间的内容都匹配出来了！！！这个样子是肯定不行的。我们需要一个工具将这个 html 文件重新格式化</p>
+<p>通过万能的互联网，查询到了名为 <code>tidy</code> 的工具，此工具可以格式化 <code>HTML/XML</code> 文件，具体下载方法就不赘述了，使用<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tidy -im file</span><br></pre></td></tr></table></figure></p>
+<p>即可完成格式化操作 :)</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shell</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/22/使用正则提取网页中的下载链接/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Linux-下多线程下载工具-Axel" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -477,6 +576,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">shell</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
             
             <div class="clearfix"></div>
