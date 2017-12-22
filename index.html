@@ -138,6 +138,91 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Linux-下多线程下载工具-Axel" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/22/Linux-下多线程下载工具-Axel/">Linux 下多线程下载工具 Axel</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/22/Linux-下多线程下载工具-Axel/" class="archive-article-date">
+  	<time datetime="2017-12-22T03:10:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>Axel 是 Linux 平台下的一款 HTTP/FTP 的高速下载工具，支持多线程以及断点续传，对于一些有速度限制的服务器上下载东西时，Axel 的速度就明显比 wget 要快一些</li>
+</ul>
+<p>还有另一个基于 wget 的多线程下载工具，<em>multi-threading wget</em> 简称 mwget ，<a href="http://www.cnblogs.com/kerker233/p/5743155.html" target="_blank" rel="noopener">链接</a></p>
+<h2 id="debian-ubuntu-安装"><a href="#debian-ubuntu-安装" class="headerlink" title="debian/ubuntu 安装"></a>debian/ubuntu 安装</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install axel</span><br></pre></td></tr></table></figure>
+<h2 id="Fedora-23-安装"><a href="#Fedora-23-安装" class="headerlink" title="Fedora 23+ 安装"></a>Fedora 23+ 安装</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dnf -y intsall axel</span><br></pre></td></tr></table></figure>
+<h2 id="CentOS-7-x-安装"><a href="#CentOS-7-x-安装" class="headerlink" title="CentOS 7.x 安装"></a>CentOS 7.x 安装</h2><p>CentOS 的 yum 中本来是不包含 axel 这个软件包的，如果要使用需要先添加 epel 拓展<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release </span><br><span class="line">yum -y install axle</span><br></pre></td></tr></table></figure></p>
+<h2 id="参数以及使用方法"><a href="#参数以及使用方法" class="headerlink" title="参数以及使用方法"></a>参数以及使用方法</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">用法: axel [选项] 地址1 [地址2] [地址...]</span><br><span class="line">选项：</span><br><span class="line">-s x	    指定最大速率（字节 / 秒）</span><br><span class="line">-n x    指定最大连接数</span><br><span class="line">-o f    指定本地输出文件</span><br><span class="line">-S [x]    搜索镜像并从 X 服务器下载</span><br><span class="line">-N    不使用任何代理服务器</span><br><span class="line">-q    使用输出简单信息模式</span><br><span class="line">-v    更多状态信息</span><br><span class="line">-a    文本式进度指示器</span><br><span class="line">-h    帮助信息</span><br><span class="line">-V    版本信息</span><br></pre></td></tr></table></figure>
+<hr>
+<p>如果我要从 Thunderbird 的官方网站下载一个最新版本的 Thunderbird 二进制包，那么我们就可以使用 axel 来下载<br>在我们获得了下载地址之后执行<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">axel -n 10 -a https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/45.2.0/linux-x86_64/zh-CN/thunderbird-45.2.0.tar.bz2</span><br></pre></td></tr></table></figure></p>
+<p>axel 将会按照我设置的10个线程来下载 Thunderbird ，笔者通过 chrome 浏览器下载时最高速度为600KB/s，在使用 axel 下载时，速度达到了 1.2MB/s（我的最大带宽）</p>
+<p>如果下载过程中意外中断，可以再次执行相同的下载命令即可恢复下载</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/22/Linux-下多线程下载工具-Axel/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Linux-输入输出-I-O-重定向" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
