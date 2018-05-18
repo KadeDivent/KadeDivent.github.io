@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="kadedivent.github.io">
   <title>使用正则提取网页中的下载链接 | Kade 的小站</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="今天心仪的女生拜托我帮忙找一下 “欢乐合唱团” 的全系列的链接，因为是下载到手机中看，就需要有中字。先 google 看看，发现网络上并没有现成的整合好全季的资源，后来又找到了一些分季的资源，可质量以及分辨率的不容乐观。后来偶然在某站找到了全季的资源，但又产生了其他问题，资源都是以链接的方式显示，并且只能一个一个复制，这样就很难受了，于是决定自己动手把链接提取出来  1、下载网页源代码wget 或">
+  <meta name="description" content="今天心仪的女生拜托我帮忙找一下 “欢乐合唱团” 的全系列的链接，因为是下载到手机中看，就需要有中字。先 google 看看，发现网络上并没有现成的整合好全季的资源，后来又找到了一些分季的资源，可质量以及分辨率的不容乐观。后来偶然在某站找到了全季的资源，但又产生了其他问题，资源都是以链接的方式显示，并且只能一个一个复制，这样就很难受了，于是决定自己动手把链接提取出来">
 <meta name="keywords" content="shell,随笔">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用正则提取网页中的下载链接">
 <meta property="og:url" content="kadedivent.github.io/2017/12/22/使用正则提取网页中的下载链接/index.html">
 <meta property="og:site_name" content="Kade 的小站">
-<meta property="og:description" content="今天心仪的女生拜托我帮忙找一下 “欢乐合唱团” 的全系列的链接，因为是下载到手机中看，就需要有中字。先 google 看看，发现网络上并没有现成的整合好全季的资源，后来又找到了一些分季的资源，可质量以及分辨率的不容乐观。后来偶然在某站找到了全季的资源，但又产生了其他问题，资源都是以链接的方式显示，并且只能一个一个复制，这样就很难受了，于是决定自己动手把链接提取出来  1、下载网页源代码wget 或">
+<meta property="og:description" content="今天心仪的女生拜托我帮忙找一下 “欢乐合唱团” 的全系列的链接，因为是下载到手机中看，就需要有中字。先 google 看看，发现网络上并没有现成的整合好全季的资源，后来又找到了一些分季的资源，可质量以及分辨率的不容乐观。后来偶然在某站找到了全季的资源，但又产生了其他问题，资源都是以链接的方式显示，并且只能一个一个复制，这样就很难受了，于是决定自己动手把链接提取出来">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2017-12-22T10:00:13.271Z">
+<meta property="og:updated_time" content="2018-05-18T07:03:15.912Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用正则提取网页中的下载链接">
-<meta name="twitter:description" content="今天心仪的女生拜托我帮忙找一下 “欢乐合唱团” 的全系列的链接，因为是下载到手机中看，就需要有中字。先 google 看看，发现网络上并没有现成的整合好全季的资源，后来又找到了一些分季的资源，可质量以及分辨率的不容乐观。后来偶然在某站找到了全季的资源，但又产生了其他问题，资源都是以链接的方式显示，并且只能一个一个复制，这样就很难受了，于是决定自己动手把链接提取出来  1、下载网页源代码wget 或">
+<meta name="twitter:description" content="今天心仪的女生拜托我帮忙找一下 “欢乐合唱团” 的全系列的链接，因为是下载到手机中看，就需要有中字。先 google 看看，发现网络上并没有现成的整合好全季的资源，后来又找到了一些分季的资源，可质量以及分辨率的不容乐观。后来偶然在某站找到了全季的资源，但又产生了其他问题，资源都是以链接的方式显示，并且只能一个一个复制，这样就很难受了，于是决定自己动手把链接提取出来">
   
     <link rel="alternative" href="/atom.xml" title="Kade 的小站" type="application/atom+xml">
   
@@ -168,6 +168,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>今天心仪的女生拜托我帮忙找一下 “欢乐合唱团” 的全系列的链接，因为是下载到手机中看，就需要有中字。<br>先 google 看看，发现网络上并没有现成的整合好全季的资源，后来又找到了一些分季的资源，可质量以及分辨率的不容乐观。<br>后来偶然在某站找到了全季的资源，但又产生了其他问题，资源都是以链接的方式显示，并且只能一个一个复制，这样就很难受了，于是决定自己动手把链接提取出来</p>
+<a id="more"></a>
 <hr>
 <h2 id="1、下载网页源代码"><a href="#1、下载网页源代码" class="headerlink" title="1、下载网页源代码"></a>1、下载网页源代码</h2><p><code>wget</code> 或者浏览器直接 <code>Ctrl + s</code> 都可以 </p>
 <h2 id="2、-分析下载链接结构"><a href="#2、-分析下载链接结构" class="headerlink" title="2、 分析下载链接结构"></a>2、 分析下载链接结构</h2><p>通常来说，一个包含下载链接的 HTML 标签应该是这个样子</p>

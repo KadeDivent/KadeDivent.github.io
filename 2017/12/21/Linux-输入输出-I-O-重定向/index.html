@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Kade 的小站">
 <meta property="og:description" content="1、概念在解释什么是重定向之前，先来说说什么是文件描述符 Linux 文件描述符文件描述符可以理解为 Linux 系统为文件分配的一个数字，范围是 0-3 ，用户也可以自定义文件描述符，但是自定文件描述符不在这里的讨论范围﻿文件描述符（file descriptor）    名称 类型 文件描述符 操作     标准输入 standard input 0 &amp;lt;,&amp;lt;&amp;lt;   标准输出">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2017-12-21T13:29:09.956Z">
+<meta property="og:updated_time" content="2018-05-18T07:01:51.381Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 输入输出(I&#x2F;O)重定向">
 <meta name="twitter:description" content="1、概念在解释什么是重定向之前，先来说说什么是文件描述符 Linux 文件描述符文件描述符可以理解为 Linux 系统为文件分配的一个数字，范围是 0-3 ，用户也可以自定义文件描述符，但是自定文件描述符不在这里的讨论范围﻿文件描述符（file descriptor）    名称 类型 文件描述符 操作     标准输入 standard input 0 &amp;lt;,&amp;lt;&amp;lt;   标准输出">
@@ -203,6 +203,7 @@
 <blockquote>
 <p>模拟终端的文件可以使用命令 tty 来查看</p>
 </blockquote>
+<a id="more"></a>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[divent@bash]$ ls -al /proc/self/fd</span><br><span class="line">total 0</span><br><span class="line">lrwx------. 1 divent divent 64 Aug 15 14:09 0 -&gt; /dev/pts/0</span><br><span class="line">lrwx------. 1 divent divent 64 Aug 15 14:09 1 -&gt; /dev/pts/0</span><br><span class="line">lrwx------. 1 divent divent 64 Aug 15 14:09 2 -&gt; /dev/pts/1</span><br></pre></td></tr></table></figure>
 <p>对于一条 Linux 的命令执行的过程如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">start=&gt;start: File</span><br><span class="line">stain=&gt;subroutine: Standard Input</span><br><span class="line">command=&gt;condition: Command</span><br><span class="line">op1=&gt;operation: Standard Output</span><br><span class="line">op2=&gt;operation: Standard Error</span><br><span class="line">end1=&gt;end: File</span><br><span class="line">end2=&gt;end: File</span><br><span class="line"></span><br><span class="line">start-&gt;stain(right)-&gt;command</span><br><span class="line">command(yes)-&gt;op1-&gt;end1</span><br><span class="line">command(no)-&gt;op2-&gt;end2</span><br></pre></td></tr></table></figure></p>
 <ol>
